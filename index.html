@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exemplo SVG</title>
+
+    <!--
+        Incluí o SVG que se repete no header, depois reutilizei ele
+        nav do HTML através com <use xlink:href="#id">.
+
+        Para poder reutilizar o SVG, tem que envolver ele em um
+        <symbol> com um id.
+        
+        O atributo xmlns pode ser declarado só aqui.
+
+        É necessário colocar width e height, ou o SVG fica com 300px
+        de largura e 150px de altura, que é o default.
+    -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+        <symbol id="arrowIcon">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+        </symbol>
+    </svg>
+
+    <style>
+        /* 
+            No :root é legal pra você adicionar variáveis de CSS
+            nesse caso eu adicionei várias cores
+        */
+        :root {
+            /* toda variável tem que ter -- no início do nome */
+            --surface-color-light: #fff;
+            --light-color: rgba(255,255,255,.38);
+            --lighter-color: rgba(255,255,255,.60);
+            --lightest-color: rgba(255,255,255,.87);
+            
+            --surface-color-dark: #121212;
+            --dark-color: rgba(0,0,0,.38);
+            --darker-color: rgba(0,0,0,.60);
+            --darkest-color: rgba(0,0,0,.87);
+            
+            --accent-light-color: #69f0ae;
+            --accent-default-color: #00e676;
+            --accent-dark-color: #00c853;
+
+            --surface-color: var(--surface-color-light);
+            --primary-color-default: var(--light-color);
+            --primary-color-higher: var(--lighter-color);
+            --primary-color-highest: var(--lightest-color);
+            --secondary-color-default: var(--dark-color);
+            --secondary-color-higher: var(--darker-color);
+            --secondary-color-highest: var(--darkest-color);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --surface-color: var(--surface-color-dark);
+                --primary-color-default: var(--dark-color);
+                --primary-color-higher: var(--darker-color);
+                --primary-color-highest: var(--darkest-color);
+                --secondary-color-default: var(--light-color);
+                --secondary-color-higher: var(--lighter-color);
+                --secondary-color-highest: var(--lightest-color);
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* pra usar as variáveis declaradas no :root
+            basta você usar var(--nomedavariavel) */
+            background: var(--surface-color);
+            color: var(--secondary-color-highest);
+            margin: 0 auto;
+            max-width: 30rem;
+            min-height: 80vh;
+            /* Esse font-family abaixo é pra definir o estilo
+            padrão dos sistemas operacionais. Ele usa a fonte
+            padrão do mac no mac, do windows no windows, etc */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        header {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: 400;
+            letter-spacing: .025em;
+            text-align: center;
+        }
+
+        ul {
+            display: flex;
+            padding: 0;
+            align-items: center;
+            list-style: none;
+        }
+
+        li {
+            display: inherit;
+            padding: .25rem;
+        }
+
+        li > a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 4rem;
+            background-color: var(--secondary-color-default);
+            color: var(--primary-color-highest);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        li > a[href="/"] {
+            background-color: var(--accent-default-color);
+            color: var(--primary-color-highest);
+        }
+
+        li > a:hover {
+            background-color: var(--accent-dark-color);
+        }
+
+        li > a:active {
+            background-color: var(--accent-light-color);
+        }
+
+        li > a:focus {
+            outline: .125rem solid var(--accent-light-color);
+            outline-offset: .25rem;
+        }
+
+        #arrowIcon {
+            fill: var(--secondary-color-higher);
+        }
+
+        form {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form > h2 {
+            visibility: hidden;
+            height: 0;
+            margin: 0;
+        }
+
+        #wifiIcon {
+            fill: var(--secondary-color-default);
+            width: 3rem;
+            height: 3rem;
+        }
+
+        label {
+            width: 100%;
+            max-width: 20rem;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 0;
+            font-size: .75rem;
+            color: var(--secondary-color-higher);
+        }
+
+        input {
+            margin-top: .5rem;
+            font-size: 1rem;
+            background-color: transparent;
+            border: .125rem solid var(--secondary-color-default);
+            padding: .5rem;
+            color: var(--secondary-color-highest);
+        }
+
+        input::placeholder {
+            color: var(--secondary-color-default)
+        }
+
+        input:hover {
+            border-color: var(--secondary-color-higher);
+        }
+
+        input:focus {
+            border-color: var(--accent-default-color);
+            outline: none;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: .5rem 2rem;
+            border: none;
+            background: var(--accent-default-color);
+            color: var(--primary-color-highest);
+            font-weight: 600;
+            width: 100%;
+            max-width: 16rem;
+            margin-top: 2rem;
+            border-radius: 4rem;
+        }
+        
+        /* 
+            Em geral é importante incluir os estados a seguir:
+
+            • hover: quando passa o mouse em cima;
+            • active: enquanto o mouse estiver clicado;
+            • focus: quando o usuário chegar no foco via teclado,
+                por exemplo, dando tab.
+         */
+        button:hover {
+            background-color: var(--accent-dark-color);
+        }
+
+        button:active {
+            background-color: var(--accent-light-color);
+        }
+
+        button:focus {
+            outline: .125rem solid var(--accent-light-color);
+            outline-offset: .25rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cadastre sua rede&nbsp;WiFi</h1>
+
+        <!--
+            Além do nav, incluí uma Unnordered List (<ul>) para
+            melhorar a acessibilidade. Pois quando usa <ul> o
+            leitor de tela diz quantos itens tem na lista.
+        -->
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">1</a>
+                </li>
+                <li aria-hidden="true">
+                    <!-- Para reutilizar o SVG da seta basta isso -->
+                    <svg width="24" height="24">
+                        <use xlink:href="#arrowIcon"/>
+                    </svg>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <!-- o aria-hidden é para ocultar este item dos
+                leitores de tela. Afinal essa seta é só decoração,
+                pra quem é cego não faz diferença. -->
+                <li aria-hidden="true">
+                    <svg width="24" height="24">
+                        <use xlink:href="#arrowIcon"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- transformei as bolinhas em links, acho
+                    que faria sentido o usuário poder clicar
+                    para navegar no passo a passo -->
+                    <a href="#">3</a>
+                </li>
+                <li aria-hidden="true">
+                    <svg width="24" height="24">
+                        <use xlink:href="#arrowIcon"/>
+                    </svg>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <form>
+        <!-- Coloquei um título aqui invisível, só para os leitores de tela
+        entenderem melhor a hierarquia do documento. Eu ocultei ele no CSS,
+        com visibility: hidden; -->
+        <h2>Formulário de seleção da rede de internet</h2>
+        <svg aria-hidden="true" id="wifiIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="none" d="M0 0h24v24H0z"/>
+            <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <label>
+            Nome da rede
+            <input type="text" placeholder="Minha rede">
+        </label>
+        <label>
+            Senha da rede
+            <input type="password" placeholder="1234">
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
